@@ -1,0 +1,37 @@
+{
+  "tools": {
+    "database": {
+      "enabled": true,
+      "connections": {
+        "production": {
+          "host": "prod-db.example.com",
+          "port": 5432,
+          "database": "production",
+          "readOnly": true
+        },
+        "staging": {
+          "host": "staging-db.example.com",
+          "port": 5432,
+          "database": "staging",
+          "readOnly": true
+        },
+        "development": {
+          "host": "localhost",
+          "port": 5432,
+          "database": "development",
+          "readOnly": false
+        }
+      }
+    }
+  },
+  "resources": {
+    "documentation": {
+      "enabled": true,
+      "sources": ["confluence", "github-wiki", "local-docs"]
+    },
+    "metrics": {
+      "enabled": true,
+      "providers": ["prometheus", "cloudwatch", "datadog"]
+    }
+  }
+}

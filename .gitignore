@@ -105,4 +105,7 @@ logs/
 secrets.json
 *.pem
 *.key
-*.cert
+*.
+
+lab5
+lab6

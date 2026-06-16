@@ -1,6 +1,117 @@
 # Lab 0: Getting Started with Bob
 
-Welcome to Lab 0! This introductory lab will familiarize you with Bob's core features: **Rules**, **Slash Commands**, and **Skills**.
+Welcome to Lab 0! This introductory lab will help you understand Bob, an AI-powered coding assistant integrated into VS Code, and familiarize you with its core features.
+
+## What is Bob?
+
+Bob is an intelligent coding assistant that works directly in your VS Code environment. Think of Bob as your AI pair programmer who can:
+- **Write and modify code** across any programming language
+- **Execute commands** in your terminal
+- **Browse and interact** with web applications
+- **Analyze files** and understand your project structure
+- **Answer questions** about your codebase
+- **Automate workflows** through custom commands
+- **Extend capabilities** via skills and MCP (Model Context Protocol) servers
+
+Bob operates through a chat interface where you describe what you want to accomplish, and Bob uses various tools to complete the task step-by-step.
+
+## Core Concepts
+
+### 1. Modes: Different Workflows for Different Tasks
+
+Bob operates in different **modes**, each optimized for specific types of work:
+
+#### 📝 Plan Mode
+- **Purpose**: Strategic planning and design before implementation
+- **Use when**: Breaking down complex problems, creating technical specifications, designing architecture
+- **Capabilities**: Can only edit markdown files (`.md`)
+- **Example**: "Create a technical design document for a user authentication system"
+
+#### 💻 Code Mode
+- **Purpose**: Writing, modifying, and refactoring code
+- **Use when**: Implementing features, fixing bugs, creating new files
+- **Capabilities**: Full file editing, command execution (no MCP or Browser tools)
+- **Example**: "Add input validation to the login form"
+
+#### 🛠️ Advanced Mode
+- **Purpose**: Complex development with extended tools
+- **Use when**: You need MCP servers, browser automation, or skills
+- **Capabilities**: Everything in Code mode + MCP tools + Browser automation + Skills
+- **Example**: "Analyze this CSV file and create visualizations" (uses Skills)
+
+#### ❓ Ask Mode
+- **Purpose**: Getting explanations and understanding code
+- **Use when**: You need documentation, code analysis, or technical answers
+- **Capabilities**: Read-only access, no file modifications
+- **Example**: "Explain how this authentication middleware works"
+
+#### 🔀 Orchestrator Mode
+- **Purpose**: Managing complex, multi-step projects
+- **Use when**: Large tasks requiring coordination across multiple domains
+- **Capabilities**: Breaks down tasks and delegates to other modes
+- **Example**: "Build a complete e-commerce platform with payment integration"
+
+**Switching Modes**: Click the mode selector in Bob's interface or ask Bob to switch modes when needed.
+
+### 2. Rules: Customizing Bob's Behavior
+
+Rules are instructions that guide how Bob works. They exist at two levels:
+
+#### Project Rules (`.bob/rules/project.md`)
+- **Shared** across the entire team
+- Define coding standards, best practices, and project-specific guidelines
+- **Committed to version control** so everyone follows the same standards
+- Examples: "Always use TypeScript strict mode", "Write unit tests for all API endpoints"
+
+#### Personal Rules (`.bob/rules/personal.md`)
+- **Private** to you only
+- Override or extend project rules with your preferences
+- **Not committed** to version control (add to `.gitignore`)
+- Examples: "Use Windows PowerShell", "Communicate in Spanish", "Always add detailed comments"
+
+**How Rules Work**: Bob reads these rules before every task and follows them when generating code, writing documentation, or interacting with you.
+
+### 3. Skills: Extending Bob's Capabilities
+
+Skills are reusable, specialized capabilities that Bob can activate to perform complex tasks:
+
+- **What they are**: Pre-built workflows that combine multiple tools and logic
+- **How they work**: Bob activates skills automatically when needed (primarily in Advanced mode)
+- **Examples**:
+  - CSV Data Summarizer: Analyzes spreadsheets and generates insights
+  - Code Reviewer: Performs security and quality analysis
+  - API Documentation Generator: Creates API docs from code
+
+**Accessing Skills**: Skills are available in **Advanced mode** and can be invoked through natural language requests.
+
+### 4. Tools: Bob's Capabilities
+
+Bob has access to powerful tools that enable it to work with your codebase:
+
+#### File Operations
+- **read_file**: Read file contents with line numbers
+- **write_to_file**: Create new files or completely rewrite existing ones
+- **apply_diff**: Make surgical edits to specific lines (most efficient for changes)
+- **insert_content**: Add new lines at specific positions
+- **list_files**: Browse directory structures
+- **search_files**: Find patterns across multiple files using regex
+
+#### Code Understanding
+- **list_code_definition_names**: Get overview of classes, functions, methods in files
+
+#### Execution
+- **execute_command**: Run CLI commands in your terminal
+- **browser_action**: Launch and interact with web browsers (for testing web apps)
+
+#### MCP Integration (Advanced Mode)
+- **use_mcp_tool**: Access tools from connected MCP servers
+- **access_mcp_resource**: Retrieve data from MCP resources
+
+#### Interaction
+- **ask_followup_question**: Request clarification when needed
+- **attempt_completion**: Present completed work to you
+
+**How Bob Uses Tools**: Bob works iteratively, using one tool at a time, waiting for confirmation before proceeding to the next step.
 
 ## Overview
 
@@ -8,6 +119,7 @@ In this lab, you will:
 1. Learn about Bob's rule system and customize your personal rules
 2. Explore and use custom slash commands
 3. Discover Bob's skills and analyze data using the Advanced mode
+4. Understand how modes, rules, and skills work together
 
 ---
 
@@ -59,11 +171,17 @@ python3 --version
 ```
 ---
 
-## Part 1: Understanding Bob Rules
+## Part 1: Understanding Rules in Depth
 
 ### What are Rules?
 
-Rules allow you to customize Bob's behavior at both project and personal levels. They guide how Bob approaches tasks, writes code, and interacts with you.
+Rules are markdown files that contain instructions for Bob. They're read before every task and influence Bob's decision-making, code style, and communication approach.
+
+**Why Rules Matter**:
+- Ensure consistency across team members
+- Enforce coding standards automatically
+- Customize Bob's behavior to match your workflow
+- Document project conventions in a machine-readable format
 
 📖 **Documentation**: https://bob.ibm.com/docs/ide/configuration/rules
 
@@ -149,11 +267,21 @@ python3 lab0/countdown.py --time 1 --title "Focus Session" --customer "ACME Corp
 
 ---
 
-## Part 3: Skills
+## Part 3: Skills and Advanced Capabilities
 
 ### What are Skills?
 
-Skills are reusable capabilities that extend Bob's functionality. They can analyze data, generate reports, integrate with external tools, and more.
+Skills are specialized, pre-built workflows that give Bob domain-specific expertise. Unlike simple tools, skills combine multiple operations, logic, and context to accomplish complex tasks.
+
+**How Skills Differ from Tools**:
+- **Tools**: Basic operations (read file, execute command)
+- **Skills**: Complex workflows (analyze data patterns, generate comprehensive reports, perform multi-step analysis)
+
+**Skill Architecture**:
+- Defined in `.bob/skills/` directory
+- Each skill has a manifest file describing its capabilities
+- Skills can use multiple tools internally
+- Activated automatically when Bob detects relevant tasks
 
 📖 **Documentation**: https://bob.ibm.com/docs/ide/features/skills
 
@@ -169,7 +297,16 @@ This skill can:
 
 ### Using Skills in Advanced Mode
 
-Skills are available in Bob's **Advanced mode**, which provides access to Model Context Protocol (MCP) servers and extended capabilities.
+Skills are primarily available in **Advanced mode** because they often require:
+- MCP server connections for external data sources
+- Browser automation for web-based analysis
+- Multiple tool combinations that exceed simple mode capabilities
+
+**When to Use Advanced Mode**:
+- Data analysis and visualization tasks
+- Integration with external APIs or services
+- Complex multi-step workflows
+- Tasks requiring browser interaction
 
 **Action 1**: Switch to Advanced mode
 - Click the mode selector in Bob's interface
@@ -192,6 +329,66 @@ Bob will:
 
 ---
 
+## Understanding Bob's Workflow
+
+### How Bob Approaches Tasks
+
+1. **Analyze**: Bob reads your request and examines the current project state
+2. **Plan**: Determines which tools and steps are needed
+3. **Execute**: Uses tools one at a time, waiting for confirmation after each step
+4. **Verify**: Checks results and handles any errors
+5. **Complete**: Presents the final result using `attempt_completion`
+
+### Best Practices for Working with Bob
+
+**Be Specific**:
+- ❌ "Fix the bug"
+- ✅ "Fix the null pointer exception in `user_service.py` line 45"
+
+**Provide Context**:
+- Reference specific files: `@filename.py`
+- Mention relevant error messages
+- Describe expected vs actual behavior
+
+**Use Modes Appropriately**:
+- Planning? → Plan mode
+- Coding? → Code mode
+- Need MCP/Skills? → Advanced mode
+- Just asking? → Ask mode
+
+**Leverage Rules**:
+- Add team conventions to project rules
+- Add personal preferences to personal rules
+- Keep rules clear and actionable
+
+**Work Iteratively**:
+- Bob works step-by-step
+- Review each step before Bob proceeds
+- Provide feedback to guide the next steps
+
+### Common Workflows
+
+**Creating a New Feature**:
+1. Switch to Plan mode → Design the feature
+2. Switch to Code mode → Implement the code
+3. Use execute_command → Test the feature
+4. Switch to Ask mode → Get documentation suggestions
+
+**Debugging an Issue**:
+1. Use search_files → Find related code
+2. Use read_file → Examine the problematic code
+3. Use execute_command → Run tests to reproduce
+4. Use apply_diff → Apply the fix
+5. Use execute_command → Verify the fix works
+
+**Analyzing Data**:
+1. Switch to Advanced mode
+2. Reference the data file: `analyze @data.csv`
+3. Bob activates appropriate skills
+4. Review generated insights and visualizations
+
+---
+
 ## Summary
 
 You've now learned about:
@@ -210,6 +407,13 @@ You've now learned about:
 - Explored the CSV Data Summarizer skill
 - Switched to Advanced mode
 - Analyzed sample data
+
+✅ **Core Concepts**: Understanding modes, rules, skills, and tools
+- Learned what Bob is and how it works
+- Explored different modes and when to use them
+- Understood the rule system architecture
+- Discovered how skills extend Bob's capabilities
+- Reviewed Bob's workflow and best practices
 
 ---
 

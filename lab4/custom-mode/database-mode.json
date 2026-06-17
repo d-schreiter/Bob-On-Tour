@@ -1,0 +1,111 @@
+{
+  "name": "Database Mode",
+  "slug": "database",
+  "description": "Specialized mode for database operations including queries, schema management, and optimization",
+  "version": "1.0.0",
+  "icon": "🗄️",
+  "capabilities": [
+    "database-queries",
+    "schema-management",
+    "query-optimization",
+    "data-analysis",
+    "migration-management"
+  ],
+  "mcpServers": [
+    {
+      "name": "custom-mcp-server",
+      "command": "node",
+      "args": ["server.js"],
+      "cwd": "./lab4/mcp-server",
+      "env": {
+        "LOG_LEVEL": "info"
+      }
+    }
+  ],
+  "tools": [
+    {
+      "name": "query_database",
+      "enabled": true,
+      "requiresApproval": false,
+      "restrictions": {
+        "readOnly": true,
+        "maxResults": 1000
+      }
+    },
+    {
+      "name": "get_table_schema",
+      "enabled": true,
+      "requiresApproval": false
+    },
+    {
+      "name": "list_tables",
+      "enabled": true,
+      "requiresApproval": false
+    }
+  ],
+  "prompts": [
+    {
+      "name": "query_optimization",
+      "description": "Analyze and optimize database query",
+      "template": "Analyze the following query for optimization opportunities:\n\nQuery: {query}\n\nProvide:\n1. Current query performance analysis\n2. Potential bottlenecks\n3. Index recommendations\n4. Optimized query version\n5. Expected performance improvement"
+    },
+    {
+      "name": "schema_design",
+      "description": "Database schema design assistance",
+      "template": "Design a database schema for {feature}:\n\nRequirements:\n{requirements}\n\nProvide:\n1. Table structure with columns and types\n2. Primary and foreign keys\n3. Indexes for performance\n4. Constraints and validations\n5. Migration script"
+    },
+    {
+      "name": "data_analysis",
+      "description": "Analyze data patterns and insights",
+      "template": "Analyze data from {table} to find:\n\n1. Data distribution patterns\n2. Anomalies or outliers\n3. Trends over time\n4. Relationships between fields\n5. Actionable insights\n\nProvide SQL queries and visualizations where applicable."
+    },
+    {
+      "name": "migration_plan",
+      "description": "Database migration planning",
+      "template": "Create a migration plan for {change_description}:\n\n1. Current state analysis\n2. Target state definition\n3. Step-by-step migration steps\n4. Rollback strategy\n5. Data validation checks\n6. Performance impact assessment\n7. Downtime estimation"
+    }
+  ],
+  "systemPrompt": "You are a database expert assistant specializing in SQL, query optimization, schema design, and data analysis. Help users with:\n\n1. Writing efficient SQL queries\n2. Optimizing query performance\n3. Designing normalized database schemas\n4. Analyzing data patterns and insights\n5. Planning database migrations\n6. Recommending indexes and constraints\n\nAlways prioritize data integrity, security, and performance. For write operations, always verify prerequisites and require explicit approval.",
+  "settings": {
+    "autoApprove": false,
+    "verboseLogging": true,
+    "maxConcurrentQueries": 5,
+    "defaultDatabase": "development",
+    "safetyChecks": {
+      "writeOperations": true,
+      "largeDatasets": true,
+      "schemaChanges": true
+    },
+    "queryTimeout": 30000,
+    "maxRowsReturned": 1000
+  },
+  "shortcuts": [
+    {
+      "name": "List All Tables",
+      "command": "Show me all tables in the {database} database",
+      "requiresInput": ["database"]
+    },
+    {
+      "name": "Get Table Schema",
+      "command": "Show me the schema for the {table} table",
+      "requiresInput": ["table"]
+    }
+  ],
+  "documentation": {
+    "gettingStarted": "This mode provides tools for database operations. Use it for querying data, analyzing schemas, optimizing queries, and planning migrations.",
+    "examples": [
+      "Show me all tables in the production database",
+      "Get the schema for the users table",
+      "Query the database for active users in the last 30 days"
+    ],
+    "bestPractices": [
+      "Always use read-only queries unless write access is explicitly needed",
+      "Test queries on development databases before running on production",
+      "Use EXPLAIN to analyze query performance",
+      "Create appropriate indexes for frequently queried columns",
+      "Normalize schemas to reduce data redundancy",
+      "Always have a rollback plan for schema changes",
+      "Monitor query performance and optimize regularly"
+    ]
+  }
+}

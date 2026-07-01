@@ -59,7 +59,7 @@ lab4/
 │       ├── server-config.json          # Server settings
 │       └── tools-config.json           # Tool definitions
 ├── custom-mode/                        # Custom mode definitions
-│   └── database-mode.json              # Database operations mode
+│   └── database-mode.yaml              # Database operations mode
 ├── examples/                           # Usage examples
 │   └── database-queries.md             # Database examples
 ```
@@ -307,7 +307,7 @@ Custom modes configure Bob for specific workflows:
 
 ### Step 4.2: Database Mode
 
-**File: `custom-mode/database-mode.json`**
+**File: `custom-mode/database-mode.yaml`**
 
 This mode is optimized for database operations:
 
@@ -530,18 +530,18 @@ Create notification tools:
 - Email notifications
 - SMS alerts
 
-## Part 8: Managing Custom Modes and MCP Servers (Optional)
+## Part 8: Managing Custom Modes and MCP Servers 
 
-> **💡 OPTIONAL: Learn how to manage modes and servers**
+> **: Learn how to manage modes and servers**
 
 ### Step 8.1: Installing Custom Modes
 
-**💡 OPTIONAL: How to install custom modes**
+**: How to install custom modes**
 
 1. Open Bob Settings
 2. Navigate to **Custom Modes**
 3. Click **Import Mode**
-4. Select your mode file (e.g., `database-mode.json`)
+4. Select your mode file (e.g., `database-mode.yaml`)
 5. The mode appears in Bob's mode selector
 
 ### Step 8.2: Removing Custom Modes
@@ -556,7 +556,7 @@ Create notification tools:
 
 **Alternative - Manual removal:**
 - Custom modes are stored in: `~/.bob/modes/`
-- Delete the JSON file for the mode you want to remove
+- Delete the YAML file for the mode you want to remove
 - Restart VS Code
 
 ### Step 8.3: Removing MCP Servers
@@ -633,7 +633,7 @@ After removal:
    - Check server logs for auth errors
 
 4. **Custom Mode Not Working**
-   - Verify mode file is valid JSON
+   - Verify mode file is valid YAML
    - Check mode is enabled in Bob Settings
    - Restart VS Code after importing
    - Review mode configuration for errors
